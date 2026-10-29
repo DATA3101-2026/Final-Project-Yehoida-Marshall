@@ -1,0 +1,1 @@
+Example file within the raw data folder, showing how it is tracked within a git project. RProjects won't recognize subfolders until they get a file in them.

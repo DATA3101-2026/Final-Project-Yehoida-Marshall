@@ -1,0 +1,8 @@
+In your final project, you will have to demonstrate your work in part by visualizing it.
+
+This subdirectory is where to save graphs that your code generates. 
+Graphs can then be referenced easily by future users running your code, 
+without you having to worry about using a local directory to save the files.
+
+Interested in how this works? Look into "working directories" to see how version 
+control software keeps everthing on track!

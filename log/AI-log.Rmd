@@ -1,0 +1,18 @@
+---
+title: "AI-log"
+format: gfm
+date: "`r format(Sys.Date(), '%d %B %Y')`" # Keep the date tracking method here - it will help your log commits update with better documentation for your work.
+---
+
+# Instructions
+
+Remember to use this to log your project process every time you use AI. Each time you add a row, commit it, with relevant notes about updating the log. This allows me to be able to see how you worked through problems if using LLMs.
+
+---
+
+# AI Log
+
+
+| Date | Stage | Tool | What I asked | What I did with it |
+|---|---|---|---|---|
+| | | | | | 

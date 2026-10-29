@@ -1,0 +1,20 @@
+Example of directory file within the clean data folder. 
+
+When you have processed or cleaned a dataset for your scripts,
+and they are ready to be visualized, this is where you will save you files. 
+
+This has two advantages.
+
+1 - You can be sure that your raw data is never overwritten. 
+That means if you make a mistake, or want to go back and include or remove something, 
+you won't have to wade through commits or redownload the raw data.It will stay in its relevant folder.
+
+2 - You can reference files within the project directory that your git is tracking. 
+If you saved files outside of the project directory,or used scripts that included your entire directory 
+name through your local computer, it would:
+
+  a) Give strangers / scripts on the internet an idea of your computer storage / personal information
+  
+  b) Not work at the end of the final project when someone is running your code. 
+  
+As such, when you are saving your code and data, make sure you're using folders within your final project directory!
