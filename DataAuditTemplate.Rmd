@@ -133,7 +133,7 @@ Since I am only using OpenF1, I do not have to worry about combining data from s
 
 ## 5.1: Excluded data from the audit
 
-I did not permanently remove any data, I just filtered the dataset to Bahrain , that was after I made sure all 24 races where there ,then I filtered again to check for Lando and Piastri and looked through that filtered data set to see if I have the things I needed but that was just testing to see if i had the important things I have not decided which or if I will be excluding any data for my final analysis. Even if I do it would be at most the other drivers I don't need but i would delete them ill just filter
+I did not permanently remove any data, I just filtered the dataset to Bahrain, that was after I made sure all 24 races where there ,then I filtered again to check for Lando and Piastri and looked through that filtered data set to see if I have the things I needed but that was just testing to see if i had the important things I have not decided which or if I will be excluding any data for my final analysis. Using only Bahrain for my auditing can affect my analysis but i don't know for sure if all variables found in Bahrain was recorded for the rest so there could be a possibility that my data source could be useless because I solely based choosing the data on the fact it had the variables for 1 race.
 
 ## 5.2: Who could be harmed
 
