@@ -10,8 +10,8 @@ format:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set( # You may not have seen this series of options before, test out knitting the md file and changing the T/F values!
-  echo = FALSE, #when I changed to tRUE, I could seee the R code and its results but FALSE only shows the results.    
-  message = FALSE,# when TRUE my Hello World message showed, whe false it didnt, also realised after that i spelt Hello wrong
+  echo = FALSE, #when I changed to TRUE, I could see the R code and its results but FALSE only shows the results.    
+  message = FALSE,# when TRUE my Hello World message showed, when false it didn't, also realized after that i spelt Hello wrong
   warning = TRUE
 ) 
 
@@ -26,7 +26,7 @@ library(tidyverse)
 
 # 1: Project Overview
 
-This project aims to investigate how much a driver's individual technique influences race performance in Formula 1, rather than performance being determined by the machinery alone. By comparing Lando Norris and Oscar Piastri throughout the 2025 season, I hope to better understand these differences since both drivers compete for the same team and have access to similar machinery, resources, and team strategies. I will be examining telemetry data, particularly speed, throttle application and braking behaviour, alongside trye compound and tyre age, to explore how driving techniques and tyre-related decisions affect race pace across straight, high-speed corners, and low-speed corners, where the data is available.
+This project aims to investigate how much a driver's individual technique influences race performance in Formula 1, rather than performance being determined by the machinery alone. By comparing Lando Norris and Oscar Piastri throughout the 2025 season, I hope to better understand these differences since both drivers compete for the same team and have access to similar machinery, resources, and team strategies. I will be examining telemetry data, particularly speed, throttle application and braking behaviour, alongside tyre compound and tyre age, to explore how driving techniques and tyre-related decisions affect race pace across straight, high-speed corners, and low-speed corners, where the data is available.
 
 -----
 
@@ -53,12 +53,12 @@ knitr::kable(sources)
 
 **Collection method.** The original data comes from sensors installed in the cars and from race timing and tracking systems.However, the exact process OpenF1 uses to obtain and process all of its data has not been fully verified.
 
-**Coverage and resolution.** The scope of my research focuses on the 2025 formula 1 season, specifically Lando Norris and Oscar Piastri across 24 races. In  the data source, I was looking for variables such as speed, throttle application, trye age, trye compund, braking, lap times, and car location, and I found records containing these variables. The data source has lap data recorded per lap, tyre information per stint, and telemetry data recorded multiple times per second. For my data audit, I examined one track, the Bahrain Grand Prix, to investigate the available variables. I also checked whether records were available for both drivers across all 24 tracks, which they were. I just, however did not fully verified the completeness and accuracy of every varibale across the entire season. 
+**Coverage and resolution.** The scope of my research focuses on the 2025 formula 1 season, specifically Lando Norris and Oscar Piastri across 24 races. In  the data source, I was looking for variables such as speed, throttle application, tyre age, tyre compound, braking, lap times, and car location, and I found records containing these variables. The data source has lap data recorded per lap, tyre information per stint, and telemetry data recorded multiple times per second. For my data audit, I examined one track, the Bahrain Grand Prix, to investigate the available variables. I also checked whether records were available for both drivers across all 24 tracks, which they were. I just, however did not fully verify the completeness and accuracy of every variable across the entire season. 
 
-**Licence.** The OpenF1 GitHub repository contains a licence called Attribution-NonCommercial-ShareAlike 4.0 International Licence. The lincence allows noncommercial sharing and adaptation of the material it covers.Users must give appropiate credit and follow ShareAlike requirements when sharing adaptations. It is unclear whether this licence covers the original Formula 1 telemetry data, so redistribution rights are still not clarified. 
+**Licence.** The OpenF1 GitHub repository contains a licence called Attribution-NonCommercial-ShareAlike 4.0 International Licence. The licence allows noncommercial sharing and adaptation of the material it covers.Users must give appropriate credit and follow ShareAlike requirements when sharing adaptations. It is unclear whether this licence covers the original Formula 1 telemetry data, so redistribution rights are still not clarified. 
 
 
-**Access.** I found OpenF1 while searching for Formula 1 data online.I retrieved it on on 9/11/26.After investigating three possible sources, I selected OpenF1 because I encountered problems accessing the other data source FastF1. I then checked whether OpenF1 contained the variables needed for my research. With the help of AI, I retrieved ther\ data directly from OpenF1 API into R using jsonlite::fromJSON() function (which we learnt in class after I had use AI). I was able to access historical data without creating an account or paying a fee because I was using 2025 data and from 2023 the data was free. The only problem I encountered was HTTP 429 errors when making multiple request,to see if the data I needed was available, which temporarily limited my access to the data. 
+**Access.** I found OpenF1 while searching for Formula 1 data online.I retrieved it on on 9/11/26.After investigating three possible sources, I selected OpenF1 because I encountered problems accessing the other data source FastF1. I then checked whether OpenF1 contained the variables needed for my research. With the help of AI, I retrieved the data directly from OpenF1 API into R using jsonlite::fromJSON() function (which we learnt in class after I had use AI). I was able to access historical data without creating an account or paying a fee because I was using 2025 data and from 2023 the data was free. The only problem I encountered was HTTP 429 errors when making multiple request,to see if the data I needed was available, which temporarily limited my access to the data. 
 
 **Known problems.** While testing OpenF1, I noticed some limitations in the data. One 2025 race session returned only one lap record for Oscar Piastri, so I would need to determine whether this was due to an early retirement or missing data. I also noticed unusual telemetry values, where throttle and braking measurements reached 104, even though throttle is generally measured on a 0–100 scale and braking is represented using binary values. Another limitation is that OpenF1 provides car location data but does not directly identify whether each measurement was recorded on a straight, high-speed corner, or low-speed corner.
 
@@ -83,12 +83,12 @@ The output contains 1129 observations and 16 variables from the 2025 Bahrain Gra
 
 ## 2.3: Investigated and rejected sources
 
-Jolipca-F1: I discovered it through F1DataStop, the same website where I found the other data providers,I rejected it because I first audited OpenF1 and it had eveyrthing I needed so I didn't see the point.
-FastF1: I tried to investigate it, because its README on GitHub seemed very convincing but when I tried to retriev the 2025 Bahrain data it was giving me so many errors and so i moved on with OpenF1
+Jolipca-F1: I discovered it through F1DataStop, the same website where I found the other data providers,I rejected it because I first audited OpenF1 and it had everything I needed so I didn't see the point.
+FastF1: I tried to investigate it, because its README on GitHub seemed very convincing but when I tried to retrieve data it was giving me so many errors and so i moved on with OpenF1.
 
 ## 2.4: What I could not find
 
-OpenF1 did not directly provide classifications for dofferent sections of the circuit, such as straight, high-speed, and low-speed corners. However, when I plotted the location data for the Bahrain Grand Prox, I was able to identify the general shape of the circuit and observe changes in speed. Although I could visually identify corners, I could not yet distinguish between the high-speed and low-speed corners. I do not currently see this as a reason to change my research question, but if I cannot reliably classify the corners, I may narrow my research question and generalize some of the detailed variables. 
+OpenF1 did not directly provide classifications for different sections of the circuit, such as straight, high-speed, and low-speed corners. However, when I plotted the location data for the Bahrain Grand Prix, I was able to identify the general shape of the circuit and observe changes in speed. Although I could visually identify corners, I could not yet distinguish between the high-speed and low-speed corners. I do not currently see this as a reason to change my research question, but if I cannot reliably classify the corners, I may narrow my research question and generalize some of the detailed variables. 
 
 ----
 
@@ -121,11 +121,11 @@ Since I am only using OpenF1, I do not have to worry about combining data from s
 # 4: Consent and identifiability
 
 
-**Consent.** I did not collect the data myself, as it was alredy available through OpenF1. The data describes the performance of Formula 1 drivers during official races, and I am using it for academic research. From what I found, the collection and use of telemetry data are governed by contracts and the Formula 1 regulations rather than separate consent from drivers but I can't say for sure what the exact agreements are and if the cover the public sharing of this data in particular.
+**Consent.** I did not collect the data myself, as it was already available through OpenF1. The data describes the performance of Formula 1 drivers during official races, and I am using it for academic research. From what I found, the collection and use of telemetry data are governed by contracts and the Formula 1 regulations rather than separate consent from drivers but I can't say for sure what the exact agreements are and if the cover the public sharing of this data in particular.
 
-**Identifiability.** My research focuses on 1 team (McLaren), and its 2 dirvers (Lando norris and Oscar Piatri). The smallest group is one diver. Both are identifiable and their racing performance data is publicly available.
+**Identifiability.** My research focuses on 1 team (McLaren), and its 2 drivers (Lando Norris and Oscar Piastri). The smallest group is one diver. Both are identifiable and their racing performance data is publicly available.
 
-**How sensitive data will be used.** The data I am using is about the drivers' racing perfomance and doesnt include private or sensitive information. I will keep their names and drivers numbers because they are important for my comparison but i won't publish the raw telemetry data un till I confirm that I have permission to do so.
+**How sensitive data will be used.** The data I am using is about the drivers' racing performance and doesn't include private or sensitive information. I will keep their names and drivers numbers because they are important for my comparison but i won't publish the raw telemetry data un till I confirm that I have permission to do so.
 
 ---
 

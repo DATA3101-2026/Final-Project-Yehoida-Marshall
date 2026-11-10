@@ -11,7 +11,7 @@ Norris and Oscar Piastri throughout the 2025 season, I hope to better
 understand these differences since both drivers compete for the same
 team and have access to similar machinery, resources, and team
 strategies. I will be examining telemetry data, particularly speed,
-throttle application and braking behaviour, alongside trye compound and
+throttle application and braking behaviour, alongside tyre compound and
 tyre age, to explore how driving techniques and tyre-related decisions
 affect race pace across straight, high-speed corners, and low-speed
 corners, where the data is available.
@@ -51,20 +51,20 @@ fully verified.
 **Coverage and resolution.** The scope of my research focuses on the
 2025 formula 1 season, specifically Lando Norris and Oscar Piastri
 across 24 races. In the data source, I was looking for variables such as
-speed, throttle application, trye age, trye compund, braking, lap times,
-and car location, and I found records containing these variables. The
-data source has lap data recorded per lap, tyre information per stint,
-and telemetry data recorded multiple times per second. For my data
-audit, I examined one track, the Bahrain Grand Prix, to investigate the
-available variables. I also checked whether records were available for
-both drivers across all 24 tracks, which they were. I just, however did
-not fully verified the completeness and accuracy of every varibale
+speed, throttle application, tyre age, tyre compound, braking, lap
+times, and car location, and I found records containing these variables.
+The data source has lap data recorded per lap, tyre information per
+stint, and telemetry data recorded multiple times per second. For my
+data audit, I examined one track, the Bahrain Grand Prix, to investigate
+the available variables. I also checked whether records were available
+for both drivers across all 24 tracks, which they were. I just, however
+did not fully verify the completeness and accuracy of every variable
 across the entire season.
 
 **Licence.** The OpenF1 GitHub repository contains a licence called
 Attribution-NonCommercial-ShareAlike 4.0 International Licence. The
-lincence allows noncommercial sharing and adaptation of the material it
-covers.Users must give appropiate credit and follow ShareAlike
+licence allows noncommercial sharing and adaptation of the material it
+covers.Users must give appropriate credit and follow ShareAlike
 requirements when sharing adaptations. It is unclear whether this
 licence covers the original Formula 1 telemetry data, so redistribution
 rights are still not clarified.
@@ -73,7 +73,7 @@ rights are still not clarified.
 retrieved it on on 9/11/26.After investigating three possible sources, I
 selected OpenF1 because I encountered problems accessing the other data
 source FastF1. I then checked whether OpenF1 contained the variables
-needed for my research. With the help of AI, I retrieved ther data
+needed for my research. With the help of AI, I retrieved the data
 directly from OpenF1 API into R using jsonlite::fromJSON() function
 (which we learnt in class after I had use AI). I was able to access
 historical data without creating an account or paying a fee because I
@@ -165,16 +165,16 @@ compare how long it took them to finish a lap and a sector, etc
 
 Jolipca-F1: I discovered it through F1DataStop, the same website where I
 found the other data providers,I rejected it because I first audited
-OpenF1 and it had eveyrthing I needed so I didn’t see the point. FastF1:
+OpenF1 and it had everything I needed so I didn’t see the point. FastF1:
 I tried to investigate it, because its README on GitHub seemed very
-convincing but when I tried to retriev the 2025 Bahrain data it was
-giving me so many errors and so i moved on with OpenF1
+convincing but when I tried to retrieve data it was giving me so many
+errors and so i moved on with OpenF1.
 
 ## 2.4: What I could not find
 
-OpenF1 did not directly provide classifications for dofferent sections
+OpenF1 did not directly provide classifications for different sections
 of the circuit, such as straight, high-speed, and low-speed corners.
-However, when I plotted the location data for the Bahrain Grand Prox, I
+However, when I plotted the location data for the Bahrain Grand Prix, I
 was able to identify the general shape of the circuit and observe
 changes in speed. Although I could visually identify corners, I could
 not yet distinguish between the high-speed and low-speed corners. I do
@@ -223,7 +223,7 @@ work under copyright with all rights reserved.
 
 # 4: Consent and identifiability
 
-**Consent.** I did not collect the data myself, as it was alredy
+**Consent.** I did not collect the data myself, as it was already
 available through OpenF1. The data describes the performance of Formula
 1 drivers during official races, and I am using it for academic
 research. From what I found, the collection and use of telemetry data
@@ -233,12 +233,12 @@ agreements are and if the cover the public sharing of this data in
 particular.
 
 **Identifiability.** My research focuses on 1 team (McLaren), and its 2
-dirvers (Lando norris and Oscar Piatri). The smallest group is one
+drivers (Lando Norris and Oscar Piastri). The smallest group is one
 diver. Both are identifiable and their racing performance data is
 publicly available.
 
 **How sensitive data will be used.** The data I am using is about the
-drivers’ racing perfomance and doesnt include private or sensitive
+drivers’ racing performance and doesn’t include private or sensitive
 information. I will keep their names and drivers numbers because they
 are important for my comparison but i won’t publish the raw telemetry
 data un till I confirm that I have permission to do so.
