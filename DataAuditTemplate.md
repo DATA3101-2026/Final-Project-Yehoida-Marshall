@@ -1,126 +1,186 @@
-# Data Audit & Overview Template
-Your name here
-2026-10-28
-
-- [1: Project Overview](#1-project-overview)
-- [2: Data Sources](#2-data-sources)
-  - [2.1 Summary of sources](#21-summary-of-sources)
-  - [2.2.1: \[name 1\]](#221-name-1)
-  - [2.2.2 \[name 2\]](#222-name-2)
-  - [2.3: Investigated and rejected
-    sources](#23-investigated-and-rejected-sources)
-  - [2.4: What I could not find](#24-what-i-could-not-find)
-- [3: Licensing and permissions](#3-licensing-and-permissions)
-  - [3.1: Licence by source](#31-licence-by-source)
-  - [3.2: Unresolved licensing \[If you were able to find all licencing,
-    delete
-    this\]](#32-unresolved-licensing-if-you-were-able-to-find-all-licencing-delete-this)
-  - [3.3: Downstream permissions](#33-downstream-permissions)
-- [4: Consent and identifiability](#4-consent-and-identifiability)
-- [5: Exclusions and harms](#5-exclusions-and-harms)
-  - [5.1: Excluded data from the
-    audit](#51-excluded-data-from-the-audit)
-  - [5.2: Who could be harmed](#52-who-could-be-harmed)
-  - [5.3: Unreleased working data](#53-unreleased-working-data)
-- [6: Data Stewardship](#6-data-stewardship)
-- [7: Use of AI](#7-use-of-ai)
-- [8: Session information](#8-session-information)
-
-<!--  another version of markdown elements, this works for html-style documents
-&#10;[FP Part 2: HOW TO USE THIS TEMPLATE FOR YOUR SUBMISSION
-&#10;Replace every bracketed prompt with your own writing (remove the brackets themselves, they're part of the placeholder here), and delete the prompt. 
-&#10;Delete any sections that are not relevant for project, but note in commit message notes (not commit titles!) why you chose to delete them. That way I know that you've been thinking through what will be relevant as you begin the coding portion of this project.
-&#10;Render, commit and push the markdown AND the .Rmd to your final project folder. 
-&#10;This document will live in your final project folder in your repository alongside the AI-LOG.md, your code, and your raw data. Remember to commit it as you work on it, so that it doesn't get mixed up in your class or assignment commit messages.]
--->
+# Data Audit for a Comparative Study of Norris and Piastri
+Yehoida Marshall
+2026-11-10
 
 # 1: Project Overview
 
-\[Two or three sentences. What community, what question, what you are
-building. Assume your reader has not seen your proposal.\]
+This project aims to investigate how much a driver’s individual
+technique influences race performance in Formula 1, rather than
+performance being determined by the machinery alone. By comparing Lando
+Norris and Oscar Piastri throughout the 2025 season, I hope to better
+understand these differences since both drivers compete for the same
+team and have access to similar machinery, resources, and team
+strategies. I will be examining telemetry data, particularly speed,
+throttle application and braking behaviour, alongside trye compound and
+tyre age, to explore how driving techniques and tyre-related decisions
+affect race pace across straight, high-speed corners, and low-speed
+corners, where the data is available.
 
 ------------------------------------------------------------------------
 
 # 2: Data Sources
 
-<!-- For the section numbers above, remember to update if needed for multiple sources or removing unneeded subsections -->
-
-\[This section everything you went looking for in your data audit. If
-you found sources that you chose not to use for the project itself, put
-them in! That helps me understand all the options you were considering
-as you worked through it\]
-
 ## 2.1 Summary of sources
 
-\[Fill in one row per source you investigated. Include the ones you
-rejected in the `Using?` column. This table is the quick reference your
-reader checks before reading anything else. A clear table will give a
-reader a good idea of what the focus is beyond the overview\]
+| Source | Producer | Format | Coverage | Using |
+|:---|:---|:---|:---|:---|
+| OpenF1 | OpenF1 project | API (JSON/CSV) | Formula 1 sessions, 2023-present; 2025 tested | Yes |
+| FastF1 | Philipp Schaefer and contributors | Python package | Historical F1 session and telemetry data | No |
+| Jolpica-F1 | Jolpica and 18 contirbutors | REST API | Historical F1 session and telemetry | No |
 
-| Source          | Producer         | Format  | Coverage         | Using        |
-|:----------------|:-----------------|:--------|:-----------------|:-------------|
-| \[source name\] | \[organization\] | \[CSV\] | \[place, years\] | Yes          |
-| \[source name\] | \[organization\] | \[PDF\] | \[place, years\] | Yes          |
-| \[source name\] | \[organization\] | \[API\] | \[place, years\] | No, see 2.4 |
+## 2.2.1: OpenF1
 
-## 2.2.1: \[name 1\]
+**Producer and authority.** OpenF1 is an open-source project maintained
+by nine contributors(br-g, adrielfrederick, keerth 1gowda, JesusGranizo,
+Ragha02, MukulS07, aksharbhagwandin, NiklEVer26 and FestinBiju). Its
+mission is to make Formula 1 data accessible to everyone.It is an
+unofficial data service, it is not an official FIA or Formula 1
+provider.
 
-**Producer and authority.** \[Who made this dataset, under what grant,
-mandate, legal authority, initiative, etc. Ex: If a municipality
-publishes it, which department, and are they required to? If a
-researcher published it, what grant was it under? If it’s an open source
-publication from an organization, do they describe why it is
-published?\]
+**Original Dataset Purpose.** The purpose of the original dataset during
+the race is for teams to use timing and telemetry information to monitor
+car performance, driver behaviour and race strategy and after the race
+the teams can analyse that information to understand what happened and
+inform decisions for future races.
 
-**Original Dataset Purpose.** \[Why was this collected? The original
-author likely didn’t have the exact same research question as you.\]
+**Collection method.** The original data comes from sensors installed in
+the cars and from race timing and tracking systems.However, the exact
+process OpenF1 uses to obtain and process all of its data has not been
+fully verified.
 
-**Collection method.** \[How did the values collected get into the file?
-Sensor, survey, administrative by-product, manual entry, something
-nobody can tell you? Remember that no answer found is still and
-answer!\]
+**Coverage and resolution.** The scope of my research focuses on the
+2025 formula 1 season, specifically Lando Norris and Oscar Piastri
+across 24 races. In the data source, I was looking for variables such as
+speed, throttle application, trye age, trye compund, braking, lap times,
+and car location, and I found records containing these variables. The
+data source has lap data recorded per lap, tyre information per stint,
+and telemetry data recorded multiple times per second. For my data
+audit, I examined one track, the Bahrain Grand Prix, to investigate the
+available variables. I also checked whether records were available for
+both drivers across all 24 tracks, which they were. I just, however did
+not fully verified the completeness and accuracy of every varibale
+across the entire season.
 
-**Coverage and resolution.** \[Spatial extent, temporal range, reporting
-frequency, unit of observation.\]
+**Licence.** The OpenF1 GitHub repository contains a licence called
+Attribution-NonCommercial-ShareAlike 4.0 International Licence. The
+lincence allows noncommercial sharing and adaptation of the material it
+covers.Users must give appropiate credit and follow ShareAlike
+requirements when sharing adaptations. It is unclear whether this
+licence covers the original Formula 1 telemetry data, so redistribution
+rights are still not clarified.
 
-**Licence.** \[Find the licence declaration and put the shorthand here.
-If you cannot find it, say here and complete section 3.2.\]
+**Access.** I found OpenF1 while searching for Formula 1 data online.I
+retrieved it on on 9/11/26.After investigating three possible sources, I
+selected OpenF1 because I encountered problems accessing the other data
+source FastF1. I then checked whether OpenF1 contained the variables
+needed for my research. With the help of AI, I retrieved ther data
+directly from OpenF1 API into R using jsonlite::fromJSON() function
+(which we learnt in class after I had use AI). I was able to access
+historical data without creating an account or paying a fee because I
+was using 2025 data and from 2023 the data was free. The only problem I
+encountered was HTTP 429 errors when making multiple request,to see if
+the data I needed was available, which temporarily limited my access to
+the data.
 
-**Access.** \[How you got it, and whether a future user could get it the
-same way. Include the date you retrieved it if it is from a website, as
-sometimes web portals or search algorithms can change and make your
-first search method difficult to replicate.\]
+**Known problems.** While testing OpenF1, I noticed some limitations in
+the data. One 2025 race session returned only one lap record for Oscar
+Piastri, so I would need to determine whether this was due to an early
+retirement or missing data. I also noticed unusual telemetry values,
+where throttle and braking measurements reached 104, even though
+throttle is generally measured on a 0–100 scale and braking is
+represented using binary values. Another limitation is that OpenF1
+provides car location data but does not directly identify whether each
+measurement was recorded on a straight, high-speed corner, or low-speed
+corner.
 
-**Known problems.** \[What is wrong with it on a first look-through? Are
-there any missing years, survey answers, changed definitions,
-inconsistent identifiers, or NA values in the dataset?\]
+    Rows: 1,129
+    Columns: 16
+    $ meeting_key       <int> 1257, 1257, 1257, 1257, 1257, 1257, 1257, 1257, 1257…
+    $ session_key       <int> 10014, 10014, 10014, 10014, 10014, 10014, 10014, 100…
+    $ driver_number     <int> 81, 16, 63, 55, 10, 12, 22, 7, 6, 4, 31, 1, 14, 23, …
+    $ lap_number        <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+    $ date_start        <chr> "2025-04-13T15:03:49.173000+00:00", "2025-04-13T15:0…
+    $ duration_sector_1 <dbl> 33.127, 34.565, 33.821, 35.564, 35.235, 35.266, 36.8…
+    $ duration_sector_2 <dbl> 42.130, 43.164, 42.305, 43.370, 42.900, 44.112, 43.8…
+    $ duration_sector_3 <dbl> 23.956, 24.036, 23.820, 24.064, 24.192, 24.317, 24.6…
+    $ i1_speed          <int> 233, 233, 232, 228, 230, 230, 236, 230, 235, 230, 22…
+    $ i2_speed          <int> 244, 250, 249, 245, 239, 248, 250, 240, 252, 244, 24…
+    $ is_pit_out_lap    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL…
+    $ lap_duration      <dbl> 99.213, 101.765, 99.946, 102.998, 102.327, 103.695, …
+    $ segments_sector_1 <list> <NA, 0, 2049, 2049, 2051, 2051, 2049, 2049, 2051, 2…
+    $ segments_sector_2 <list> <2051, 2051, 2051, 2049, 2051, 2049, 2049, 2049, 20…
+    $ segments_sector_3 <list> <2049, 2049, 2049, 2049, 2049, 2049, 2051>, <2049, …
+    $ st_speed          <int> 250, 256, 251, 257, 256, 253, 210, 243, 243, 257, 24…
 
-\[One or two sentences on what the output above shows. Feel free to note
-anything new or hard for you to initially understand in the structure,
-types, source, or size.\]
+      meeting_key session_key driver_number lap_number
+    1        1257       10014            81          1
+    2        1257       10014            16          1
+    3        1257       10014            63          1
+    4        1257       10014            55          1
+    5        1257       10014            10          1
+    6        1257       10014            12          1
+                            date_start duration_sector_1 duration_sector_2
+    1 2025-04-13T15:03:49.173000+00:00            33.127            42.130
+    2 2025-04-13T15:03:49.173000+00:00            34.565            43.164
+    3 2025-04-13T15:03:49.173000+00:00            33.821            42.305
+    4 2025-04-13T15:03:49.173000+00:00            35.564            43.370
+    5 2025-04-13T15:03:49.173000+00:00            35.235            42.900
+    6 2025-04-13T15:03:49.173000+00:00            35.266            44.112
+      duration_sector_3 i1_speed i2_speed is_pit_out_lap lap_duration
+    1            23.956      233      244          FALSE       99.213
+    2            24.036      233      250          FALSE      101.765
+    3            23.820      232      249          FALSE       99.946
+    4            24.064      228      245          FALSE      102.998
+    5            24.192      230      239          FALSE      102.327
+    6            24.317      230      248          FALSE      103.695
+                                               segments_sector_1
+    1      NA, 0, 2049, 2049, 2051, 2051, 2049, 2049, 2051, 2049
+    2      NA, 0, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    3      NA, 0, 2049, 2051, 2049, 2049, 2049, 2049, 2049, 2049
+    4 2048, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    5      NA, 0, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    6      NA, 0, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+                                                     segments_sector_2
+    1 2051, 2051, 2051, 2049, 2051, 2049, 2049, 2049, 2051, 2049, 2049
+    2 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    3 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2051, 2049, 2049, 2049
+    4 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    5 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+    6       0, 0, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049, 2049
+                             segments_sector_3 st_speed
+    1 2049, 2049, 2049, 2049, 2049, 2049, 2051      250
+    2 2049, 2049, 2049, 2049, 2049, 2049, 2051      256
+    3 2051, 2049, 2049, 2051, 2049, 2051, 2051      251
+    4 2049, 2049, 2049, 2049, 2049, 2049, 2048      257
+    5    2049, 2049, 2049, 2049, 2049, 2049, 0      256
+    6 2049, 2049, 2049, 2049, 2049, 2049, 2051      253
 
-## 2.2.2 \[name 2\]
-
-\[Repeat the full structure above for every source you are using. Copy
-the headings and the loaded source’s descriptive sentences below.\]
+The output contains 1129 observations and 16 variables from the 2025
+Bahrain Grand Prix. Some of the variables include lap number, lap
+duration, driver number, sector timing, etc. This information will help
+me filter the data to find the 2 driver numbers I am studying and
+compare how long it took them to finish a lap and a sector, etc
 
 ## 2.3: Investigated and rejected sources
 
-\[One or two sentences per rejected source: what it was, why you went
-looking. Some examples: licensing permissions, resolution mismatch,
-paywall, abandoned since 2017, aggregated beyond its usefulness, changed
-project idea, etc.
-
-A rejected source documented properly saves the next person the time you
-spent finding out the best source for your project. Negative results are
-not bad news!\]
+Jolipca-F1: I discovered it through F1DataStop, the same website where I
+found the other data providers,I rejected it because I first audited
+OpenF1 and it had eveyrthing I needed so I didn’t see the point. FastF1:
+I tried to investigate it, because its README on GitHub seemed very
+convincing but when I tried to retriev the 2025 Bahrain data it was
+giving me so many errors and so i moved on with OpenF1
 
 ## 2.4: What I could not find
 
-\[If you changed your project idea due to lack of data, explain what you
-expected to find more easily but does not, or exists and is not
-obtainable. Name who holds it, if you know the source. Absence is a
-finding about how an organization or community’s data is managed.\]
+OpenF1 did not directly provide classifications for dofferent sections
+of the circuit, such as straight, high-speed, and low-speed corners.
+However, when I plotted the location data for the Bahrain Grand Prox, I
+was able to identify the general shape of the circuit and observe
+changes in speed. Although I could visually identify corners, I could
+not yet distinguish between the high-speed and low-speed corners. I do
+not currently see this as a reason to change my research question, but
+if I cannot reliably classify the corners, I may narrow my research
+question and generalize some of the detailed variables.
 
 ------------------------------------------------------------------------
 
@@ -128,52 +188,60 @@ finding about how an organization or community’s data is managed.\]
 
 ## 3.1: Licence by source
 
-| Source | Licence | Attribution_required | Attribution_given |
-|:---|:---|:---|:---|
-| \[source name 1\] | \[e.g. OGL Canada 2.0\] | Yes | Yes, see below |
-| \[source name 2\] | \[licence\] | \[Yes/No\] | \[Yes/No\] |
+| Source | Licence                      | Attribution_required | Attribution_given |
+|:-------|:-----------------------------|:---------------------|:------------------|
+| OpenF1 | CC BY-NC-SA 4.0 (repository) | Yes                  | Yes, see below    |
 
-**Attribution statements.** \[Reproduce the exact attribution each
-licence requires, aka the wording the licence specifies.\]
+**Attribution statements.** The date for my project was obtained byt
+OpenF1(https://openf1.org), an open source Formula 1 data API. The
+GitHub repository(https://github.com/br-g/openf1) cantains the Creative
+Commons Attribution-NonCommercial-ShareAlike 4.0 International
+licence(https://github.com/br-g/openf1/blob/main/LICENSE). I can’t say
+for certian whether this lincence also applies to the underlying Formula
+1 telemetry data.
 
-## 3.2: Unresolved licensing \[If you were able to find all licencing, delete this\]
+## 3.2: Unresolved licensing
 
-\[For any source where you could not determine the licence include: what
-you tried, who you contacted or what you found, and what you concluded
-about permissible use based on the project. “Unknown, this is my search
-or web investigation trail” is worth full marks.\]
+I was unable to confirm whether OpenF1’s repository licence covers the
+original Formula 1 telemetry data and because of lack of time,I could
+not contact OpenF1 for clarification. However, I spoke to you about this
+in class and you said it was okay to proceed. I will make sure that I do
+not redistribute the raw data until I know for certain that I have
+permission to .
 
 ## 3.3: Downstream permissions
 
-\[What can someone else do with your data project *output*? If you
-combine sources under incompatible licences, your merged product may be
-more restricted than either input was. Work out what licence you can
-actually offer, and state it. If all open data, state it.\]
+Since I am only using OpenF1, I do not have to worry about combining
+data from sources with different license.However, because I am still
+unsure whether OpenF1’s licence covers the original telemetry data, I
+cannot offer an open licence for the raw data or give others permission
+to redistribute it. I can make my own analysis and findings available
+for people to read and reference, but for now, I will keep my original
+work under copyright with all rights reserved.
 
 ------------------------------------------------------------------------
 
 # 4: Consent and identifiability
 
-\[If your data does not describe people, say so explicitly and explain
-why you are confident of that then move on.\]
+**Consent.** I did not collect the data myself, as it was alredy
+available through OpenF1. The data describes the performance of Formula
+1 drivers during official races, and I am using it for academic
+research. From what I found, the collection and use of telemetry data
+are governed by contracts and the Formula 1 regulations rather than
+separate consent from drivers but I can’t say for sure what the exact
+agreements are and if the cover the public sharing of this data in
+particular.
 
-**Consent.** \[If you collected it: what paticipants agreed to, and how
-their data and consent was recorded. If someone else collected it: what
-were people told at the time, and does your use fall inside that? If it
-is your own data, what are you comfortable with people using it for in
-the future if someone else downloaded it?\]
+**Identifiability.** My research focuses on 1 team (McLaren), and its 2
+dirvers (Lando norris and Oscar Piatri). The smallest group is one
+diver. Both are identifiable and their racing performance data is
+publicly available.
 
-**Identifiability.** \[How many people are in the smallest reported
-cell? How small is the population of the place or community you are
-describing? If it does reference people’s data in a public manner
-(sports stats like goals or time), that is public data. If it is a
-conversation from a person who did not consent for their interview to be
-shared, it’s not.\]
-
-**What I will be doing with it.** \[Suppression of identifiable
-information in your published dataset, aggregation to a coarser unit
-(bigger groups etc), withholding identifying variables, or a decision
-not to publish part of the dataset.\]
+**How sensitive data will be used.** The data I am using is about the
+drivers’ racing perfomance and doesnt include private or sensitive
+information. I will keep their names and drivers numbers because they
+are important for my comparison but i won’t publish the raw telemetry
+data un till I confirm that I have permission to do so.
 
 ------------------------------------------------------------------------
 
@@ -181,108 +249,101 @@ not to publish part of the dataset.\]
 
 ## 5.1: Excluded data from the audit
 
-\[Every published dataset will demonstrate what an author aimed to
-prioritize, and lack of data or missing data can show the same. If you
-removed a column of the unprocessed dataset, describe what it was, and
-why you decided to remove it. That could be things like sensitive
-variables, time periods, places, categories. How could this exclusion
-affect your data points in your analysis? \]
+I did not permanently remove any data, I just filtered the dataset to
+Bahrain , that was after I made sure all 24 races where there ,then I
+filtered again to check for Lando and Piastri and looked through that
+filtered data set to see if I have the things I needed but that was just
+testing to see if i had the important things I have not decided which or
+if I will be excluding any data for my final analysis. Even if I do it
+would be at most the other drivers I don’t need but i would delete them
+ill just filter
 
 ## 5.2: Who could be harmed
 
-\[Name a plausible misuse and who would be on the receiving end. Think
-about parties with an interest in the subject you chose, who are not
-your intended audience.\]
+This could negatively affect the drivers in question since my research
+isn’t considering every single detail and is taking out weird laps so
+people could ignore that the research doesn’t account for every little
+things and could be misused by fans or the media to make one driver look
+worse than the other
 
 ## 5.3: Unreleased working data
 
-\[If there is anything in your working data you would not publish, say
-what it was and why. If there is nothing, describe why it is okay to
-publish the working / raw dataset.\]
+I will not publish the raw telemetry data because I am still unsure if I
+have the permission to redistribute it but i plan on sharing my R code.
 
 ------------------------------------------------------------------------
 
 # 6: Data Stewardship
 
-**Where it lives.** \[Repository, platform, or institution. It’s okay to
-be realisitic about the project after this course ends, as a GitHub
-account you stop paying attention to in January is a real answer.\]
+**Where it lives.** It is currently stored on my GitHub in my
+Final-Project-Yehoida-Marshall and on my computer
 
-**Who maintains it.** \[If nobody, say nobody.\]
+**Who maintains it.** I will maintain the project , since i plan to
+include it in my portfolio when/ if I apply for jobs in Formula 1, I
+tend to keep it accessible and update it when necessary
 
-**Formats and dependencies.** \[Will your files open in ten years?
-Consider what could break if someone tried it in 2036. The package
-versions, data format, API, links to sources etc.\]
+**Formats and dependencies.** My project is using R and Markdown files
+so it should still be readable in the future but the code does depend on
+the R packages and the OpenF1 API so, the changes could affect whether
+the code would still work in 2036
 
-**Lifespan.** \[How long is this meaningfully usable before it needs
-updating or should be retired?\]
+**Lifespan.** I plan to keep this project beyond the course becasue I
+want to include it in my portfolio for future job applications in
+Formula 1. Since it focuses on the 2025 season, the research will remain
+a historical comparison, so may be only the code will need some updating
+and dependencies to keep it working.
 
 ------------------------------------------------------------------------
 
 # 7: Use of AI
 
-\[State plainly whether you have used AI tools on this project.
+**AI log:** [AI-log.md](log/AI-log.md)
 
-Your `AI-LOG.md` will live in this repository and is committed alongside
-the work it describes. Do not reproduce it here, but use a link such as
-`/log/AI-LOG.md` to point to it within your final project directory:\]
-
-**AI log:** `AI-LOG.md` \[— maintained from \[starting date\] and
-committed alongside each stage of work.\]
-
-\[One short paragraph summarizing your pattern of AI use (if any) so
-far: which stages, what for, etc. State the model you are using, such as
-ChatGPT or Claude. If you are continuing to chat to a Gemeni search
-agent after looking something up, that counts too! If you have not used
-AI tools at all, say so here and make sure `AI-LOG.md` says the same.\]
-
-\[**Reminder: the text in this document must be written in your own
-words.**\]
+I used AI, specifically CHATGPT (GPT-6). I used it to breakdown the
+questions (basically makes a checklist for me for everything i have to
+do). I used it to audit my data sources because I had started before we
+learnt about API sourcing in class so i used it to help me retrieve the
+data. It helped me with code eg. one of my data sets was a repo that
+worked with fully python so used AI to help me know how to get it in R,
+way too many errors so I did not use that source. I also used it as a
+thinking ahead tool so not just looking at the variables I had but also
+what are things i have to consider before full committing to just this
+one data source. I also used it to summarize the licence text from the
+data source.
 
 ------------------------------------------------------------------------
 
 # 8: Session information
 
     R version 4.6.1 (2026-06-24)
-    Platform: x86_64-apple-darwin20
+    Platform: aarch64-apple-darwin23
     Running under: macOS Tahoe 26.6.2
 
     Matrix products: default
-    BLAS:   /Library/Frameworks/R.framework/Versions/4.6-x86_64/Resources/lib/libRblas.0.dylib 
-    LAPACK: /Library/Frameworks/R.framework/Versions/4.6-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+    BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib 
+    LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
     locale:
     [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
-    time zone: America/Halifax
+    time zone: America/Moncton
     tzcode source: internal
 
     attached base packages:
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] lubridate_1.9.5 forcats_1.0.1   stringr_1.6.0   dplyr_1.2.1    
-     [5] purrr_1.2.2     readr_2.2.0     tidyr_1.3.2     tibble_3.3.1   
-     [9] ggplot2_4.0.3   tidyverse_2.0.0
+     [1] jsonlite_2.0.0  lubridate_1.9.5 forcats_1.0.1   stringr_1.6.0  
+     [5] dplyr_1.2.1     purrr_1.2.2     readr_2.2.0     tidyr_1.3.2    
+     [9] tibble_3.3.1    ggplot2_4.0.3   tidyverse_2.0.0
 
     loaded via a namespace (and not attached):
-     [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.6.1     tidyselect_1.2.1  
-     [5] scales_1.4.0       yaml_2.3.12        fastmap_1.2.0      R6_2.6.1          
-     [9] generics_0.1.4     knitr_1.52         pillar_1.11.1      RColorBrewer_1.1-3
-    [13] tzdb_0.5.0         rlang_1.3.0        stringi_1.8.9      xfun_0.60         
-    [17] S7_0.2.2           otel_0.2.0         timechange_0.4.0   cli_3.6.6         
-    [21] withr_3.0.3        magrittr_2.0.5     digest_0.6.39      grid_4.6.1        
-    [25] rstudioapi_0.19.0  hms_1.1.4          lifecycle_1.0.5    vctrs_0.7.3       
-    [29] evaluate_1.0.5     glue_1.8.1         farver_2.1.2       rmarkdown_2.32    
-    [33] tools_4.6.1        pkgconfig_2.0.3    htmltools_0.5.9   
-
-<!--
-BEFORE YOU SUBMIT
-&#10;- Does your file render from a clean session (wiping the environment and history with no errors?
-- Are all paths relative? No setwd(), no C:/Users/yourname/
-- Is every package you used declared in the setup chunk?
-- Is AI-LOG.md committed and current?
-- Could a stranger read this and know what you are hoping to do in your project, what your data is, where it came
-  from, and what others are allowed to do with it?
-- Have you deleted every bracketed prompt including this comment block?
--->
+     [1] gtable_0.3.6       compiler_4.6.1     tidyselect_1.2.1   scales_1.4.0      
+     [5] yaml_2.3.12        fastmap_1.2.0      R6_2.6.1           generics_0.1.4    
+     [9] knitr_1.52         pillar_1.11.1      RColorBrewer_1.1-3 tzdb_0.5.0        
+    [13] rlang_1.3.0        stringi_1.8.9      xfun_0.61          S7_0.2.2          
+    [17] otel_0.2.0         timechange_0.4.0   cli_3.6.6          withr_3.0.3       
+    [21] magrittr_2.0.5     digest_0.6.39      grid_4.6.1         rstudioapi_0.19.0 
+    [25] hms_1.1.4          lifecycle_1.0.5    vctrs_0.7.3        evaluate_1.0.5    
+    [29] glue_1.8.1         farver_2.1.2       rmarkdown_2.32     tools_4.6.1       
+    [33] pkgconfig_2.0.3    htmltools_0.5.9   

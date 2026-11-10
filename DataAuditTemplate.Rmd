@@ -1,19 +1,18 @@
 ---
-title: "Data Audit & Overview Template" # Replace with something more relevant
-author: "Your name here"
-date: "`r format(Sys.Date(), '%d %B %Y')`" # What does this do? What is Sys.Date()?
-
+title: "Data Audit for a Comparative Study of Norris and Piastri" 
+author: "Yehoida Marshall"
+date: "`r format(Sys.Date(), '%d %B %Y')`" # I shows the time i rendered it, in the format 2026-11-09
 format: 
   gfm: 
-    toc: true # What is TOC in this scenerio? Render this template and see what happens when you turn it to false.
+    toc: false # When it was true, I saw links to the different sections. When it is false , links chanhged to regular text (later found out it means Table of Content)
     df_print: kable
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set( # You may not have seen this series of options before, test out knitting the md file and changing the T/F values!
-  echo = FALSE,        
-  message = FALSE,
-  warning = FALSE
+  echo = FALSE, #when I changed to tRUE, I could seee the R code and its results but FALSE only shows the results.    
+  message = FALSE,# when TRUE my Hello World message showed, whe false it didnt, also realised after that i spelt Hello wrong
+  warning = TRUE
 ) 
 
 # Declare every package you use at the top.
@@ -23,94 +22,73 @@ library(tidyverse)
 # library(readr)     # Another useful package, this can help with csv files etc.
 ```
 
-```{=html}
-<!--  another version of markdown elements, this works for html-style documents
 
-[FP Part 2: HOW TO USE THIS TEMPLATE FOR YOUR SUBMISSION
-
-Replace every bracketed prompt with your own writing (remove the brackets themselves, they're part of the placeholder here), and delete the prompt. 
-
-Delete any sections that are not relevant for project, but note in commit message notes (not commit titles!) why you chose to delete them. That way I know that you've been thinking through what will be relevant as you begin the coding portion of this project.
-
-Render, commit and push the markdown AND the .Rmd to your final project folder. 
-
-This document will live in your final project folder in your repository alongside the AI-LOG.md, your code, and your raw data. Remember to commit it as you work on it, so that it doesn't get mixed up in your class or assignment commit messages.]
--->
-```
 
 # 1: Project Overview
 
-[Two or three sentences covering your hypothesis or what you are building. Assume your reader has not seen your proposal.]
+This project aims to investigate how much a driver's individual technique influences race performance in Formula 1, rather than performance being determined by the machinery alone. By comparing Lando Norris and Oscar Piastri throughout the 2025 season, I hope to better understand these differences since both drivers compete for the same team and have access to similar machinery, resources, and team strategies. I will be examining telemetry data, particularly speed, throttle application and braking behaviour, alongside trye compound and tyre age, to explore how driving techniques and tyre-related decisions affect race pace across straight, high-speed corners, and low-speed corners, where the data is available.
 
 -----
 
 # 2: Data Sources
 
-<!-- For the section numbers above, remember to update if needed for multiple sources or removing unneeded subsections -->
-
-\[This section covers everything you went looking for in your data audit. If you found sources that you chose not to use for the project itself, put them in! That helps your reader understand all the options you were considering as you worked through it.\]
-
 ## 2.1 Summary of sources
-
-\[Fill in one row per source you investigated. Include the ones you rejected in the `Using?` column. This table is the quick reference your reader checks before reading anything else. A clear table will give a reader a good idea of what the focus is beyond the overview.\]
 
 ```{r source-summary, echo=FALSE}
 sources <- tribble(
   ~Source,            ~Producer,          ~Format,  ~Coverage,          ~Using,
-  "[source name]",    "[organization]",   "[CSV]",  "[place, years]",   "Yes",
-  "[source name]",    "[organization]",   "[PDF]",  "[place, years]",   "Yes",
-  "[source name]",    "[organization]",   "[API]",  "[place, years]",   "No, see 2.4"
+  "OpenF1",    "OpenF1 project",   "API (JSON/CSV)",  "Formula 1 sessions, 2023-present; 2025 tested",   "Yes",
+  "FastF1",    "Philipp Schaefer and contributors",   "Python package",  "Historical F1 session and telemetry data",   "No",
+  "Jolpica-F1",    "Jolpica and 18 contirbutors",   "REST API",  "Historical F1 session and telemetry",   "No"
 )
 
 knitr::kable(sources)
 ```
 
-## 2.2.1: \[name 1\]
+## 2.2.1: OpenF1
 
-**Producer and authority.** \[Who made this dataset, under what grant, mandate, legal authority, initiative, etc. Ex: If a municipality publishes it, which department, and were they required to? If a researcher published it, what grant was it under? If it's an open source publication from an organization, do they describe why it is published?\]
+**Producer and authority.** OpenF1 is an open-source project maintained by nine contributors(br-g, adrielfrederick, keerth 1gowda, JesusGranizo, Ragha02, MukulS07, aksharbhagwandin, NiklEVer26 and FestinBiju). Its mission is to make Formula 1 data accessible to everyone.It is an unofficial data service, it is not an official FIA or Formula 1 provider.
 
-**Original Dataset Purpose.** \[Why was this collected? The original author likely didn't have the exact same research question as you.\]
+**Original Dataset Purpose.** The purpose of the original dataset during the race is for teams to use timing and telemetry information to monitor car performance, driver behaviour and race strategy and after the race the teams can analyse that information to understand what happened and inform decisions for future races. 
 
-**Collection method.** \[How did the values collected get into the file? Sensor, survey, administrative by-product, manual entry, something nobody can tell you? Remember that no answer found is still and answer!\]
+**Collection method.** The original data comes from sensors installed in the cars and from race timing and tracking systems.However, the exact process OpenF1 uses to obtain and process all of its data has not been fully verified.
 
-**Coverage and resolution.** \[Spatial extent, temporal range, reporting frequency, unit of observation.\]
+**Coverage and resolution.** The scope of my research focuses on the 2025 formula 1 season, specifically Lando Norris and Oscar Piastri across 24 races. In  the data source, I was looking for variables such as speed, throttle application, trye age, trye compund, braking, lap times, and car location, and I found records containing these variables. The data source has lap data recorded per lap, tyre information per stint, and telemetry data recorded multiple times per second. For my data audit, I examined one track, the Bahrain Grand Prix, to investigate the available variables. I also checked whether records were available for both drivers across all 24 tracks, which they were. I just, however did not fully verified the completeness and accuracy of every varibale across the entire season. 
 
-**Licence.** \[Find the licence declaration and put the shorthand here. If you cannot find it, say here and complete section 3.2.\]
+**Licence.** The OpenF1 GitHub repository contains a licence called Attribution-NonCommercial-ShareAlike 4.0 International Licence. The lincence allows noncommercial sharing and adaptation of the material it covers.Users must give appropiate credit and follow ShareAlike requirements when sharing adaptations. It is unclear whether this licence covers the original Formula 1 telemetry data, so redistribution rights are still not clarified. 
 
-**Access.** \[How you got it, and whether a future user could get it the same way. Include the date you retrieved it if it is from a website, as sometimes web portals or search algorithms can change and make your first search method difficult to replicate.\]
 
-**Known problems.** \[What is wrong with it on a first look-through? Are there any missing years, survey answers, changed definitions, inconsistent identifiers, or NA values, etc. in the dataset?\]
+**Access.** I found OpenF1 while searching for Formula 1 data online.I retrieved it on on 9/11/26.After investigating three possible sources, I selected OpenF1 because I encountered problems accessing the other data source FastF1. I then checked whether OpenF1 contained the variables needed for my research. With the help of AI, I retrieved ther\ data directly from OpenF1 API into R using jsonlite::fromJSON() function (which we learnt in class after I had use AI). I was able to access historical data without creating an account or paying a fee because I was using 2025 data and from 2023 the data was free. The only problem I encountered was HTTP 429 errors when making multiple request,to see if the data I needed was available, which temporarily limited my access to the data. 
+
+**Known problems.** While testing OpenF1, I noticed some limitations in the data. One 2025 race session returned only one lap record for Oscar Piastri, so I would need to determine whether this was due to an early retirement or missing data. I also noticed unusual telemetry values, where throttle and braking measurements reached 104, even though throttle is generally measured on a 0–100 scale and braking is represented using binary values. Another limitation is that OpenF1 provides car location data but does not directly identify whether each measurement was recorded on a straight, high-speed corner, or low-speed corner.
+
 
 ```{r source-1-load}
-# Load the RAW file, as received into this code block. The code below when uncommented will read it from your final project / RProject folder, and show the first x (in this case I've piped to show 6) lines. Change as needed.
+# getting the raw lap data from the 2025 Bahrain Grand Prix
+library(jsonlite)
+library(dplyr)
 
-##### IF FILTERING SENSITIVE DATA... so as not to show identifying information on GitHub, you can do that! I am not expecting you to have fully cleaned an entire dataset yet if you are working with large data.
+#filters through to OpenF1, find the content with laps and the session key to find a particular race. 
+raw_1 <- jsonlite::fromJSON("https://api.openf1.org/v1/laps?session_key=10014")
 
-# Show the reader its actual shape.
+#shows the structure of the raw data
+dplyr::glimpse(raw_1)
 
-# raw_1 <- read_csv("data/raw/[filename].csv") # example for a csv file
-# glimpse(raw_1) |> select(1:6) 
+#displays the first 6 rows
+head(raw_1,6)
 ```
 
-\[One or two sentences on what the output above shows. Feel free to note anything new or hard for you to initially understand in the structure, types, source, or size.\]
+The output contains 1129 observations and 16 variables from the 2025 Bahrain Grand Prix. Some of the variables include lap number, lap duration, driver number, sector timing, etc. This information will help me filter the data to find the 2 driver numbers I am studying and compare how long it took them to finish a lap and a sector, etc 
 
-## 2.2.2 \[name 2\]
-
-\[Repeat the full structure above for every source you are using. Copy the headings and the loaded source's descriptive sentences below.\]
-
-```{r source-2-load}
-
-```
 
 ## 2.3: Investigated and rejected sources
 
-\[One or two sentences per rejected source: what it was, why you checked it out. Some examples: licensing permissions, resolution mismatch, paywall, abandoned since 2017, aggregated beyond its usefulness, changed project idea, etc.
-
-Documenting why a source was rejected saves the next person the time you spent finding out the best source for your project. Negative results are not bad news!\]
+Jolipca-F1: I discovered it through F1DataStop, the same website where I found the other data providers,I rejected it because I first audited OpenF1 and it had eveyrthing I needed so I didn't see the point.
+FastF1: I tried to investigate it, because its README on GitHub seemed very convincing but when I tried to retriev the 2025 Bahrain data it was giving me so many errors and so i moved on with OpenF1
 
 ## 2.4: What I could not find
 
-\[If you changed your project idea due to lack of data, explain what you expected to find more easily but does not, or exists and is not obtainable. Name who holds it, if you know the source. Absence is a finding about how an organization or community's data is managed.\]
+OpenF1 did not directly provide classifications for dofferent sections of the circuit, such as straight, high-speed, and low-speed corners. However, when I plotted the location data for the Bahrain Grand Prox, I was able to identify the general shape of the circuit and observe changes in speed. Although I could visually identify corners, I could not yet distinguish between the high-speed and low-speed corners. I do not currently see this as a reason to change my research question, but if I cannot reliably classify the corners, I may narrow my research question and generalize some of the detailed variables. 
 
 ----
 
@@ -122,34 +100,32 @@ Documenting why a source was rejected saves the next person the time you spent f
 # Note how there is a name in each code block, this 
 licences <- tribble(
   ~Source,          ~Licence,                    ~Attribution_required, ~Attribution_given,
-  "[source name 1]",  "[e.g. OGL Canada 2.0]",   "Yes",                 "Yes, see below",
-  "[source name 2]",  "[licence]",                 "[Yes/No]",            "[Yes/No]"
+  "OpenF1",  "CC BY-NC-SA 4.0 (repository)",   "Yes",                 "Yes, see below",
 )
 
 knitr::kable(licences)
 ```
 
-**Attribution statements.** \[Reproduce the exact attribution each licence requires, aka the wording the licence specifies.\]
+**Attribution statements.** The date for my project was obtained byt OpenF1(https://openf1.org), an open source Formula 1 data API. The GitHub repository(https://github.com/br-g/openf1) cantains the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International licence(https://github.com/br-g/openf1/blob/main/LICENSE). I can't say for certian whether this lincence also applies to the underlying Formula 1 telemetry data.
 
-## 3.2: Unresolved licensing \[If you were able to find all licencing, delete this\]
+## 3.2: Unresolved licensing 
 
-\[For any source where you could not determine the licence include: what you tried, who you contacted or what you found, and what you concluded about permissible use based on the project. "Unknown, this is my search or web investigation trail" is worth full marks.\]
+I was unable to confirm whether OpenF1's repository licence covers the original Formula 1 telemetry data and because of lack of time,I could not contact OpenF1 for clarification. However, I spoke to you about this in class and you said it was okay to proceed. I will make sure that I do not redistribute the raw data until I know for certain that I have permission to . 
 
 ## 3.3: Downstream permissions
 
-\[What can someone else do with your data project *output*? If you combine sources under incompatible licences, your merged product may be more restricted than either input was. Work out what licence you can actually offer, and state it. If all open data, state it.\]
+Since I am only using OpenF1, I do not have to worry about combining data from sources with different license.However, because I am still unsure whether OpenF1's licence covers the original telemetry data, I cannot offer an open licence for the raw data or give others permission to redistribute it. I can make my own analysis and findings available for people to read and reference, but for now, I will keep my original work under copyright with all rights reserved.
 
 ----
 
 # 4: Consent and identifiability
 
-\[If your data does not describe people, say so explicitly and explain why you are confident of that then move on.\]
 
-**Consent.** \[If you collected it: what participants agreed to your survey, and how was their data and consent was recorded. If someone else collected it: what were people told at the time, and does your use fall inside that? If it is your own data, what are you comfortable with people using it for in the future if someone else downloaded it?\]
+**Consent.** I did not collect the data myself, as it was alredy available through OpenF1. The data describes the performance of Formula 1 drivers during official races, and I am using it for academic research. From what I found, the collection and use of telemetry data are governed by contracts and the Formula 1 regulations rather than separate consent from drivers but I can't say for sure what the exact agreements are and if the cover the public sharing of this data in particular.
 
-**Identifiability.** \[How many people are in the smallest reported cell? How small is the population of the place or community you are describing? If it does reference people's data in a public manner (sports stats like goals or time), that is public data. If it is a conversation from a person who did not consent for their interview to be shared, it's not.\]
+**Identifiability.** My research focuses on 1 team (McLaren), and its 2 dirvers (Lando norris and Oscar Piatri). The smallest group is one diver. Both are identifiable and their racing performance data is publicly available.
 
-**How sensitive data will be used.** \[Suppression of identifiable information in your published dataset, aggregation to a coarser unit (bigger groups etc), withholding identifying variables, or a decision not to publish part of the dataset.\]
+**How sensitive data will be used.** The data I am using is about the drivers' racing perfomance and doesnt include private or sensitive information. I will keep their names and drivers numbers because they are important for my comparison but i won't publish the raw telemetry data un till I confirm that I have permission to do so.
 
 ---
 
@@ -157,61 +133,46 @@ knitr::kable(licences)
 
 ## 5.1: Excluded data from the audit
 
-\[Every published dataset will demonstrate what an author aimed to prioritize, and lack of data or missing data can show the same. If you removed a column of the unprocessed dataset, describe what it was, and why you decided to remove it. That could be things like sensitive variables, time periods, places, categories. How could this exclusion affect your data points in your analysis? \]
+I did not permanently remove any data, I just filtered the dataset to Bahrain , that was after I made sure all 24 races where there ,then I filtered again to check for Lando and Piastri and looked through that filtered data set to see if I have the things I needed but that was just testing to see if i had the important things I have not decided which or if I will be excluding any data for my final analysis. Even if I do it would be at most the other drivers I don't need but i would delete them ill just filter
 
 ## 5.2: Who could be harmed
 
-\[Name a plausible misuse and who would be on the receiving end. Think about parties with an interest in the subject you chose, who are not your intended audience.\]
+This could negatively affect the drivers in question since my research isn't considering every single detail and is taking out weird laps so people could ignore that the research doesn't account for every little things and could be misused by fans or the media to make one driver look worse than the other
 
 ## 5.3: Unreleased working data
 
-\[If there is anything in your working data you would not publish, say what it was and why. If there is nothing, describe why it is okay to publish the working / raw dataset.\]
+I will not publish the raw telemetry data because I am still unsure if I have the permission to redistribute it but i plan on sharing my R code.
 
 ---
 
 # 6: Data Stewardship
 
-**Where it lives.** \[Repository, platform, or institution. It's okay to be realisitic about the project after this course ends, as a GitHub account you stop paying attention to in January is a real answer.\]
+**Where it lives.** It is currently stored on my GitHub in my Final-Project-Yehoida-Marshall and on my computer
 
-**Who maintains it.** \[If nobody, say nobody.\]
+**Who maintains it.** I will maintain the project , since i plan to include it in my portfolio when/ if I apply for jobs in Formula 1, I tend to keep it accessible and update it when necessary
 
-**Formats and dependencies.** \[Will your files open in ten years? Consider what could break if someone tried it in 2036. The package versions, data format, API, links to sources etc.\]
+**Formats and dependencies.** My project is using R and Markdown files so it should still be readable in the future but the code does depend on the R packages and the OpenF1 API so, the changes could affect whether the code would still work in 2036
 
-**Lifespan.** \[How long is this meaningfully usable before it needs updating or should be retired?\]
+**Lifespan.** I plan to keep this project beyond the course becasue I want to include it in my portfolio for future job applications in Formula 1. Since it focuses on the 2025 season, the research will remain a historical comparison, so may be only the code will need some updating and dependencies to keep it working.
 
 -----
 
 # 7: Use of AI
 
-\[State plainly whether you have used AI tools on this project.
+**AI log:** [AI-log.md](log/AI-log.md)
 
-Your `AI-LOG.md` will live in this repository and is committed alongside the work it describes. Do not reproduce it here, but use a link such as `/log/AI-LOG.md` to point to it within your final project directory:\]
-
-**AI log:** `AI-LOG.md` \[— maintained from \[starting date\] and committed alongside each stage of work.\]
-
-\[One short paragraph summarizing your pattern of AI use (if any) so far: which stages, what for, etc. State the model you are using, such as ChatGPT or Claude. If you are continuing to chat to a Gemeni search agent after looking something up, that counts too! If you have not used AI tools at all, say so here and make sure `AI-LOG.md` says the same.\]
-
-\[**Reminder: the text in this document must be written in your own words.**\]
+I used AI, specifically CHATGPT (GPT-6). I used it to breakdown the questions (basically makes a checklist for me for everything i have to do). I used it to audit my data sources because I had started before we learnt about API sourcing in class so i used it to help me retrieve the data. It helped me with code eg. one of my data sets was a repo that worked with fully python so used AI to help me know how to get it in R, way too many errors so I did not use that source. I also used it as a thinking ahead tool so not just looking at the variables I had but also what are things i have to consider before full committing to just this one data source. I also used it to summarize the licence text from the data source.
 
 -----
 
 # 8: Session information
 
 ```{r session-info}
+
 # provides information about what was used within the markdown session, allowing reproducibility after publishing.
 sessionInfo()
 ```
 
-```{=html}
-<!--
-BEFORE YOU SUBMIT
 
-- Does your file render from a clean session (wiping the environment and history with no errors?
-- Are all paths relative? No setwd(), no C:/Users/yourname/
-- Is every package you used declared in the setup chunk?
-- Is AI-LOG.md committed and current?
-- Could a stranger read this and know what you are hoping to do in your project, what your data is, where it came
-  from, and what others are allowed to do with it?
-- Have you deleted every bracketed prompt including this comment block?
--->
-```
+
+
